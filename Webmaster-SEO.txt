@@ -1,0 +1,40 @@
+Webmasters : referencement naturel - SEO - safe url
+voici comment utiliser facilement les safe url sur apache / linux
+au lieu d'avoir des adresses disgracieuses et mauvaise pour le référencement naturel du type :
+
+http://monsite.com/index.php?c=12
+
+
+modifiez simplement la config apache (dans le .htaccess si votre hébergeur a ouvert les fonctions correspondantes, ou si vous avez 1 acces root au serveur le mieux est de le mettre dans le fichier de config d'apache, dans la config générale pour 1 seul site, ou bien dans le block virtualhost du site concerné s'il yen a plusieurs) :
+
+RewriteEngine  on
+
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^/.*/([^,]*,.*)$  /$1   [R] [L]
+
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^/[^,]*,(.*)$  /index.php?c=$1 [PT] [L]
+
+
+ensuite testez la config et recharger apache :
+
+[root@ns203754 ~]# service httpd configtest
+Syntax OK
+
+[root@ns203754 ~]# service httpd reload
+Reloading httpd:                                           [  OK  ]
+
+
+et c'est tout ! maintenant l'adresse :
+http://monsite.com/le-titre-de-ma-page-ou-ce-que-je-veux,12
+
+équivaut à  :
+http://monsite.com/index.php?c=12
+
+
+
+
+
+
+
+
